@@ -1,0 +1,42 @@
+@import 'tailwindcss';
+@source "../components";
+@source "../storyblok";
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    @apply text-gray-900 bg-white;
+  }
+
+  .rich-text h1 {
+    @apply text-6xl font-extrabold mt-12 mb-6;
+  }
+
+  .rich-text h2 {
+    @apply text-5xl font-extrabold mt-10 mb-5;
+  }
+
+  .rich-text h3 {
+    @apply text-4xl font-extrabold mt-8 mb-4;
+  }
+
+  .rich-text h4 {
+    @apply text-3xl font-extrabold mt-6 mb-3;
+  }
+
+  .rich-text h5 {
+    @apply text-2xl font-extrabold mt-5 mb-2;
+  }
+
+  .rich-text h6 {
+    @apply text-xl font-extrabold mt-4 mb-2;
+  }
+
+  .rich-text p {
+    @apply text-base my-6;
+  }
+
+  .rich-text a {
+    @apply text-blue-600 hover:text-blue-800 underline;
+  }
+}

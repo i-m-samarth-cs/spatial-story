@@ -1,0 +1,62 @@
+'use client'
+import * as React from 'react'
+import { useState } from 'react'
+import { storyblokEditable } from '@storyblok/react/rsc'
+import type { TabsContent } from '../content'
+import RichTextView from '../components/RichText'
+import Content from './Content'
+
+export type TabsProps = {
+  blok: TabsContent
+}
+
+function Tabs(props: TabsProps) {
+  const [currentTabUid, setCurrentTabUid] = useState(
+    () => props.blok.tabs[0]?._uid,
+  )
+
+  return (
+    <div
+      className="self-stretch flex justify-center bg-white px-4 py-8  sm:px-8 sm:py-16 md:px-20 md:py-24"
+      {...storyblokEditable(props.blok)}
+    >
+      <div className="flex-1 flex flex-col justify-start items-center gap-8 md:gap-14 max-w-7xl">
+        <div className="self-stretch flex flex-col justify-start items-center gap-2">
+          <RichTextView doc={props.blok.description} />
+        </div>
+        <div className="self-stretch flex flex-col items-stretch gap-4 md:gap-5">
+          <div className="self-stretch p-1 bg-white rounded-lg outline-1 outline-offset-[-1px] outline-stone-900 inline-flex justify-start items-center gap-2">
+            {props.blok.tabs?.map((tab) => (
+              <button
+                key={tab._uid}
+                {...storyblokEditable(tab)}
+                onClick={(_event) => setCurrentTabUid(tab._uid)}
+                className={`flex-1 py-2 text-sm sm:py-3 sm:text-base md:py-4 ${
+                  currentTabUid === tab._uid
+                    ? 'bg-stone-800 text-white'
+                    : 'bg-transparent text-stone-800 '
+                } rounded-lg flex justify-center items-center gap-0.5`}
+              >
+                <div className="justify-center text-base font-bold leading-snug">
+                  {tab.title}
+                </div>
+              </button>
+            ))}
+          </div>
+          {props.blok.tabs
+            .find((tab) => tab._uid === currentTabUid)
+            ?.content?.map((content) => (
+              <div
+                className="rounded-xl md:rounded-3xl overflow-hidden flex flex-col items-stretch gap-2"
+                key={content._uid}
+              >
+                <Content blok={content} />
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Tabs
